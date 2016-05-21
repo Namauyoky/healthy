@@ -107,9 +107,10 @@ return [
 
     'attributes' => [
 
-        'pais_id' => 'Pais',
-        'estado_id' => 'Estado',
-        'ciudad_id' => 'Ciudad'
+        'pais_id' => '',
+        'estado_id' => '',
+        'ciudad_id' => '',
+        'identificacion' => 'Identification'
 
     ],
 

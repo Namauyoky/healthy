@@ -3,6 +3,7 @@
 namespace healthy\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use healthy\Http\ViewComposers\MakeModelForm;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -15,11 +16,11 @@ class ViewServiceProvider extends ServiceProvider
     {
         //
         //
-//        $this->app->make('view')->composer(
-//            ['clientes/create'],
-//            MakeModelForm::class
-//
-//        );
+        $this->app->make('view')->composer(
+            ['clientes/create'],
+            MakeModelForm::class
+
+        );
 
     }
 

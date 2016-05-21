@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 
-@include('includes.htmlheader')
+@include('partials.htmlheader')
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="skin-red-light sidebar-mini">
 <div class="wrapper">
 
-    @include('includes.header')
-    @include('includes.sidebar')
+    @include('partials.header')
+    @include('partials.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        @include('includes.contentheader')
+        @include('partials.contentheader')
 
         {{--<!-- Content Header (Page header) -->--}}
         {{--<section class="content-header">--}}
@@ -34,12 +34,13 @@
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 
-    @include('includes.controlsidebar')
-    @include('includes.footer')
+    @include('partials.controlsidebar')
+    @include('partials.footer')
 
 </div><!-- ./wrapper -->
 
-@include('includes.scripts')
 
+@yield('partials.scripts')
 </body>
+
 </html>

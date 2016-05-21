@@ -60,8 +60,16 @@ class NotesController extends Controller
         $this->validate(request(),[
            'note' => ['required','max:200']
         ]);
+
+
+        /*$nota= new Note();
+        $nota->note= $request->get('campo de formulario');
+        $nota->save();
+        */
        // return Request::only
         $data= request()->all();
+        
+       // dd($data);
 
         Note::create($data);
 

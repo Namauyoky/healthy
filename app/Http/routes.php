@@ -12,79 +12,93 @@
 */
 use healthy\Note;
 use healthy\Http\Requests\Request;
-use healthy\Ciudad;
-use healthy\Estado;
-use healthy\Pais;
+use healthy\Models\Ciudad;
+use healthy\Models\Estado;
+use healthy\Models\Pais;
 
 
-Route::group(['middleware' =>'auth'],function(){
+    Route::group(['middleware' =>'auth'],function(){
 
 
-    Route::get('/', function () {
-        return view('home');
-    });
+        Route::get('/', function () {
+            return view('home');
+        });
 
 
-    Route::get('logout',[
+        Route::get('logout',[
 
-        'uses' => 'Auth\AuthController@getLogout',
-        'as'  => 'logout'
+            'uses' => 'Auth\AuthController@getLogout',
+            'as'  => 'logout'
 
-    ]);
+        ]);
 
-    //Registration routes
-    Route::get('registro',[
-        'uses' => 'Auth\AuthController@getRegister',
-        'as'   => 'registro'
-    ]);
+        //Registration routes
+        Route::get('registro',[
+            'uses' => 'Auth\AuthController@getRegister',
+            'as'   => 'registro'
+        ]);
 
-    Route::post('registro',[
+        Route::post('registro',[
 
-        'uses' => 'Auth\AuthController@postRegister',
-        'as'  => 'registro'
+            'uses' => 'Auth\AuthController@postRegister',
+            'as'  => 'registro'
 
-    ]);
+        ]);
 
-    //Alta de Clientes
-    Route::get('alta-cliente',[
+        //Alta de Clientes
+        Route::get('alta-cliente',[
 
-        'uses' => 'ClientesController@create',
-        'as'   => 'alta-cliente'
-    ]);
+            'uses' => 'ClientesController@create',
+            'as'   => 'alta-cliente'
+        ]);
 
-    Route::post('alta-cliente',[
+        Route::post('alta-cliente',[
 
-     'uses' => 'ClientesController@store',
-     'as'   => 'altacliente'
-    ]);
+         'uses' => 'ClientesController@store',
+         'as'   => 'alta-cliente'
+        ]);
+
+        Route::get('cliente-list',[
+
+            'uses' =>'ClientesController@index',
+            'as' => 'clientes-lists'
+
+        ]);
 
 
+        //Para Select de Región...
+        Route::get('paisestados/{pais_id}',function($pais_id){
 
-    Route::get('paisestados/{Id_Pais}',function($Id_Pais){
+            //RETORNAR LA CONSULTA AL MÉTODO.
+            $estados= Estado::where('Id_Paises_Pais',$pais_id)
+                ->select('Id_Estado as value','Nombre_Estado as text')
+                ->orderBy('Nombre_Estado','DESC')
+                ->get()
+                ->toArray();
 
-        //RETORNAR LA CONSULTA AL MODELO
-        $estados=PaisEstado::where('Id_Paises_Pais',$Id_Pais)
-            ->select('Id_Estado as value','Nombre_Estado as text')
-            ->orderBy('Nombre_Estado','ASC')
-            ->get()
-            ->toArray();
+            array_unshift($estados,['value' =>'','text' => 'Seleccione']);
+            return $estados;
 
-        array_unshift($estados,['value' =>'','text' =>'Seleccione']);
-        return $estados;
+        });
 
-    });
+        Route::get('ciudades/{estado_id}',function($estado_id){
+            $ciudades=Ciudad::where('Id_Estados_Estado',$estado_id)
+                ->select('Id_Ciudad as value','Nombre_Ciudad as text')
+                ->orderBy('Nombre_Ciudad','ASC')
+                ->get()
+               ->toArray();
 
-    Route::get('ciudades/{Id_Estado}',function($Id_Estado){
-        $ciudades=Ciudad::where('Id_Estados_Estado',$Id_Estado)
-            ->select('Id_Ciudad as value','Nombre_Ciudad as text')
-            ->orderBy('Nombre_Ciudad','ASC')
-            ->get()
-            ->toArray();
+           array_unshift($ciudades,['value' =>'','text' =>'Seleccione']);
+            return $ciudades;
 
-        array_unshift($ciudades,['value' =>'','text' =>'Seleccione']);
-        return $ciudades;
+        });
 
-    });
+
+        Route::get('consultacliente',[
+           
+            'as' => 'consultacliente',
+            'uses' => 'ClientesController@consultaname'
+        ]);
 
 
 
@@ -181,9 +195,6 @@ Route::get('productos/delete',function()
     $productos->delete();
 
 });
-
-
-Route::resource('estados','EstadoController');
 
 
 //Middleware para accesar a diferentes rutas, sólo si el usuario está registrado en el sistema, hizo login

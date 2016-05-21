@@ -2,13 +2,13 @@
 
 namespace healthy\Http\Controllers;
 
+use healthy\ImpuestoRetener;
 use Illuminate\Http\Request;
 
 use healthy\Http\Requests;
 use healthy\Http\Controllers\Controller;
-use healthy\Estado;
 
-class EstadoController extends Controller
+class SelectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +18,6 @@ class EstadoController extends Controller
     public function index()
     {
         //
-        $states= Estado::lists('Nombre_Estado','Id_Estado');
-        return view('clientes.estados',compact('states'));
     }
 
     /**
@@ -86,5 +84,12 @@ class EstadoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function impuestoaretener(){
+        
+
+
     }
 }
