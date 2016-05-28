@@ -142,6 +142,8 @@ return [
          * Vendor Service Provider
          */
         Styde\Html\HtmlServiceProvider::class,
+        Bican\Roles\RolesServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -151,6 +153,7 @@ return [
         healthy\Providers\EventServiceProvider::class,
         healthy\Providers\RouteServiceProvider::class,
         healthy\Providers\ViewServiceProvider::class,
+        healthy\Providers\ComposerServiceProvider::class,
 
 
         Acacha\AdminLTETemplateLaravel\app\Providers\AdminLTETemplateServiceProvider::class,
@@ -207,6 +210,7 @@ return [
         'Alert'     => Styde\Html\Facades\Alert::class,
         'Field'     => Styde\Html\Facades\Field::class,
         'Menu'      => Styde\Html\Facades\Menu::class,
+        'Flash'     => Laracasts\Flash\Flash::class,
 
     ],
 

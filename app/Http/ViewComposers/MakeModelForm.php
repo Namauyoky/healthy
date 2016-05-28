@@ -48,18 +48,9 @@ class MakeModelForm
             }
         }
 
-       /* $impuestosretener=ImpuestoRetener::orderBy('impuestos_nombre')
-            ->lists('impuestos_nombre','idimpuesto_retener')
-            ->toArray();*/
+        $view ->with(compact('makeForm','paises','paisEstados','ciudades'));
 
-        $impuestosretener= DB::table('impuestos_retener')
-            ->select('idimpuesto_retener',DB::raw('CONCAT(impuestos_nombre,"-",impuesto_porcentaje,"%") AS impuesto'))
-        ->lists('impuesto','idimpuesto_retener');
-
-        $view ->with(compact('makeForm','paises','paisEstados','ciudades','impuestosretener'));
-
-
-
+       
 
     }
 

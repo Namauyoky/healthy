@@ -14,17 +14,9 @@
 
         @include('partials.contentheader')
 
-        {{--<!-- Content Header (Page header) -->--}}
-        {{--<section class="content-header">--}}
-            {{--<h1>--}}
-                {{--Dashboard--}}
-                {{--<small>Version 2.0</small>--}}
-            {{--</h1>--}}
-            {{--<ol class="breadcrumb">--}}
-                {{--<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>--}}
-                {{--<li class="active">Dashboard</li>--}}
-            {{--</ol>--}}
-        {{--</section>--}}
+        {{--Si no queremos usar el packete laracasts/flash, descomentamos éste --}}
+        {{--@include('partials.flash')--}}
+                @include('flash::message')
 
         <!-- Main content -->
         <section class="content">
@@ -38,9 +30,15 @@
     @include('partials.footer')
 
 </div><!-- ./wrapper -->
-
-
-@yield('partials.scripts')
+@include('partials.jqueryscript')
+@yield('scripts')
+{{--Desaparecer el div de flash alert cuando el msj no es importante --}}
+<script>
+    //Para que se muestre Alert Modal
+//    $('#flash-overlay-modal').modal();
+    $('div.alert').not('.alert-important').delay(2000).slideUp(300);
+</script>
+@include('partials.scripts')
 </body>
 
 </html>

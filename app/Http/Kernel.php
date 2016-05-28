@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \healthy\Http\Middleware\VerifyCsrfToken::class,
+
     ];
 
     /**
@@ -31,5 +32,7 @@ class Kernel extends HttpKernel
         'auth' => \healthy\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \healthy\Http\Middleware\RedirectIfAuthenticated::class,
+        'role' => \Bican\Roles\Middleware\VerifyRole::class,
+        'permission' => \Bican\Roles\Middleware\VerifyPermission::class,
     ];
 }

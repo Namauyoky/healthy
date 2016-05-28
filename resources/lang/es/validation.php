@@ -37,8 +37,8 @@ return array(
 	"date"           => "El campo :attribute no es una fecha válida.",
 	"date_format" 	 => "El campo :attribute no corresponde con el formato :format.",
 	"different"      => "Los campos :attribute y :other deben ser diferentes.",
-	"digits"         => "El campo :attribute debe ser de :digits dígitos.",
-	"digits_between" => "El campo :attribute debe tener entre :min y :max dígitos.",
+	"digits"         => "El campo :attribute debe ser de :digits números.",
+	"digits_between" => "El campo :attribute debe tener entre :min y :max números.",
 	"email"          => "El formato del :attribute es inválido.",
 	"exists"         => "El campo :attribute seleccionado es inválido.",
         "filled"         => 'El campo :attribute es requerido.',	
@@ -71,7 +71,7 @@ return array(
 	"required_with_all"     => "El campo :attribute es requerido cuando :values está presente.",
 	"required_without"      => "El campo :attribute es requerido cuando :values no está presente.",
 	"required_without_all"  => "El campo :attribute es requerido cuando ningún :values está presente.",
-	"same"                  => "El campo :attribute y :other debe coincidir.",
+	"same"                  => "El campo :attribute y :other deben coincidir.",
 	"size"                  => array(
 				"numeric" => "El campo :attribute debe ser :size.",
 				"file"    => "El campo :attribute debe tener :size kilobytes.",
@@ -79,9 +79,10 @@ return array(
 				"array"   => "El campo :attribute debe contener :size elementos.",
 	),
 	"string"               => "El campo :attribute debe ser una cadena.",
-	"unique"         => "El campo :attribute ya ha sido tomado.",
+	"unique"         => "El campo :attribute ya existe en Base de Datos.",
 	"url"            => "El formato de :attribute es inválido.",
 	"timezone"       => "El campo :attribute debe ser una zona válida.",
+	"patrocinador"   => "El campo :attribute no cumple las condiciones para ser patrocinador",
 
 	/*
 	|--------------------------------------------------------------------------

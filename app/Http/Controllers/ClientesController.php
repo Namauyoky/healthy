@@ -2,13 +2,20 @@
 
 namespace healthy\Http\Controllers;
 
+use Faker\Provider\DateTime;
 use healthy\Http\Requests\CreateClientRequest;
 use healthy\Models\Clientes;
+use healthy\Models\CountBank;
+use healthy\User;
 use Illuminate\Auth\Guard;
-use Illuminate\Http\Request;
 
 use healthy\Http\Requests;
 use healthy\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Carbon\Carbon;// Aquí indicamos que usaremos Carbon
+use Illuminate\Support\Facades\Session; 
 
 class ClientesController extends Controller
 {
@@ -20,7 +27,14 @@ class ClientesController extends Controller
     public function index()
     {
         //
-        return view('clientes.lists');
+        $date=Carbon::now();
+        $dateformated= $date->toDateString();
+
+        $lastclients=Clientes::where('FechaAlta',"LIKE","%$dateformated%")
+                    ->orderBy('Id_Afiliado','DESC')
+                    ->get();
+
+        return view('clientes.lists',compact('lastclients'));
     }
 
     /**
@@ -69,37 +83,89 @@ class ClientesController extends Controller
 
         try {
 
+            //------Fecha Actual
+            $date=Carbon::now();
+            $dateformated= $date->toDateString();
+            //----------------------------------------
             $cliente=new Clientes($request->all());
-
-            $hijo=$cliente->Id_Afiliado=15;
-            $cliente->Estado_Cliente=2;
-            $cliente->Id_Usuarios_UsuarioAlta=$auth->id();
-            $cliente->FechaAlta='2016-06-16';
-            $cliente->Tipo_ImpuestoRetener=1;
-            $padre=$cliente->Id_Cliente_Patrocinador=4;
-            $cliente->Sexo='Femenino';
-            $cliente->EdoCivil='Soltero';
-            $cliente->Ocupacion='Empleado';
-            $cliente->NoSeguro='200';
-            $cliente->RFC='MOLJ55454';
-            $cliente->Fecha_ultcompra='2016-03-18';
-            $cliente->retencion_isr=1;
-            $cliente->Id_Cliente_Patrocinador_ant=6;
-            $cliente->Puntos=0;
-            $cliente->Id_RedOrigen='MX';
-            $cliente->Tipo_Cliente=1;
+            $padre=$cliente->Id_Cliente_Patrocinador=$request->patrocinador;
+            srand ((double) microtime( )*1000000);
+            $nip = rand();
+            $cliente->Nip=$nip;
+            $cliente->Nombre=$request->nombre;
+            $cliente->Apellidos= $request->apellidos;
+            $cliente->nombre_completo= $request->nombre. ' ' .$request->apellidos;
+            $cliente->Fecha_Nacimiento= $request->nacimiento;
+            $cliente->Domicilio= $request->domicilio;
+            $cliente->Colonia= $request->colonia;
+            $cliente->CodigoPostal=$request->codigop;
             $cliente->Id_Ciudades_Ciudad= $request->ciudad_id;
             $cliente->Id_Estados_Estado= $request->estado_id;
             $cliente->Id_Paises_Pais=$request->pais_id;
-            $cliente->Nombre=$request->nombre;
-            $cliente->Apellidos= $request->apellidos;
+            $cliente->Telefono= $request->telefono;
+            $cliente->Tel_Celular= $request->celular;
+            $cliente->Correo_Electronico=$request->mail;
+            $cliente->Identificacion= $request->identificacion;
+            $cliente->Genero= $request->get('genero');
+            $cliente->EdoCivil= $request->get('edocivil');
+            $cliente->Ocupacion= $request->get('ocupacion') ;
+            $cliente->NoSeguro= $request->rfc;
+            $cliente->RFC= $request->rfc;
+            $cliente->Id_Cliente_Patrocinador_ant= $request->patrocinador;
+            //$fechactual= new DateTime('now');
+            $cliente->FechaAlta=$dateformated;
+            $cliente->Fecha_ultcompra=$dateformated;
+            $cliente->Puntos=0;
+            $cliente->Estado_Cliente=2;
+            $cliente->Tipo_ImpuestoRetener=$request->impuestos;
+            $cliente->Id_Usuarios_UsuarioAlta=$auth->id();
+            $cliente->Id_RedOrigen='MX';
+            $cliente->Tipo_Cliente=1;
             $cliente->save();
 
 
-            \DB::select('CALL Multinivel(?,?)',array($padre,$hijo));
+            //$hijo=$idcreado->Id_Afiliado;
+
+            //$hijo=$cliente->Id_Afiliado=16;
+            
+            
+            CountBank::create(array(
+               
+                'Id_Afiliado' => $cliente->Id_Afiliado,
+                'banco'       => $request->banco,
+                'cuenta'      => $request->cuenta,
+                'tipopago'    => $request->tipopago
+
+            ));
+
+            \DB::select('CALL Multinivel(?,?)',array($padre,$cliente->Id_Afiliado));
             \DB::commit();
 
+//            Session::flash('flash_message','Cliente Creado Correctamente');
+            //otra opcion
+        /*    session()->flash('flash_message','Cliente Creado Correctamente');
+            session()->flash('flash_message_important',true);*/
+
+            /*Para esta opcion se tiene que agregar el paquete laracasts/flash en composer
+            /*Recibe como parámetros flash.message y flash.level(éste para saber el nivel de importancia)
+            /*En clase FlashNotifier
+            */
+
+            //si no queremos usar laracasts/flash, descomentar /comentar
+            //flash('Cliente Creado Correctamente')->important();
+            flash()->success('Cliente Creado Correctamente');
+
+            //Flash Modal
+//            flash()->overlay('Cliente Creado Correctamente','Proceso Correcto');
+
             return redirect()->route('clientes-lists');
+
+            //Algo más resumido
+//            return redirect()->route('clientes-lists')->with([
+//
+//                'flash_message' => 'Cliente Creado Correctamente',
+//                'flash_message_important' => true
+//            ]);
 
         }
             // Ha ocurrido un error, devolvemos la BD a su estado previo y hacemos lo que queramos con esa excepción
@@ -192,6 +258,29 @@ class ClientesController extends Controller
         //
     }
     
+    public function buscar(Request $request){
+
+        if($request->ajax()){
+
+            $cliente=$request->input('patrocinador');
+            //$cliente= $request->get('patrocinador');
+//            $users = DB::table('users')->get();
+//            return Response::json(array(
+//                'users' => 	$users
+//            ));
+//
+            $users= User::name($request->get('patrocinador'));
+
+            return Response::json(array(
+
+                'users' => $users
+
+            ));
+
+
+        }
+    }
+    
     
     public function consultaname(Request $request){
 
@@ -199,14 +288,9 @@ class ClientesController extends Controller
 
         $clients= Clientes::name($request->get('nombre'))
             ->orderBy('Id_Afiliado','DESC')->paginate();
-        
-        
         return view('partials.list-clientes',compact('clients'));
 
         //return $clients;
-        
-
-        
     }
 
     /**

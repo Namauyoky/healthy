@@ -24,8 +24,8 @@ class CreateClientRequest extends Request
     public function rules()
     {
         return [
-
-            'nombre'              =>'required|max:40|string',
+            'patrocinador'      =>'required|digits_between:1,10|exists:clientes,Id_Afiliado|patrocinador',
+            'nombre'            =>'required|max:40|string',
             'apellidos'         =>'required|max:50|string',
             'nacimiento'        =>'required|date',
             'pais_id'           =>'required|not in:Seleccione',
@@ -33,9 +33,9 @@ class CreateClientRequest extends Request
             'ciudad_id'         =>'required||not in:Seleccione',
             'identificacion'    =>'required|max:255|alpha_num',
             'rfc'               =>'required|max:18|alpha_num',
-            'genero'            =>'required|in:Masculino,Femenino',
-            'edocivil'          =>'required|in:Soltero,Casado,Viudo,Divorciado',
-            'ocupacion'         =>'required|in:Comerciante,Distribuidor,Empleado,Hogar,Estudiante,Profesionista,Otro',
+            'genero'            =>'in:Masculino,Femenino',
+            'edocivil'          =>'in:Soltero,Casado,Viudo,Divorciado',
+            'ocupacion'         =>'in:Comerciante,Distribuidor,Empleado,Hogar,Estudiante,Profesionista,Otro',
             'domicilio'         =>'required|max:150|string',
             'colonia'           =>'required|max:50|string',
             'codigop'           =>'required|max:6|digits:6',
@@ -43,10 +43,13 @@ class CreateClientRequest extends Request
             'celular'           =>'max:30|alpha_num',
             'mail'              =>'required|email',
             'banco'             =>'required',
-            'cuenta'            =>'required'
+            'cuenta'            =>'required||unique:clientescuentas,cuenta'
 
 
 
         ];
     }
+
+
+    
 }

@@ -10,11 +10,14 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use Bican\Roles\Models\Permission;
+use healthy\Models\Clientes;
 use healthy\Note;
-use healthy\Http\Requests\Request;
 use healthy\Models\Ciudad;
 use healthy\Models\Estado;
 use healthy\Models\Pais;
+use healthy\User;
+use Bican\Roles\Models\Role;
 
 
     Route::group(['middleware' =>'auth'],function(){
@@ -23,13 +26,11 @@ use healthy\Models\Pais;
         Route::get('/', function () {
             return view('home');
         });
-
-
+        
         Route::get('logout',[
 
             'uses' => 'Auth\AuthController@getLogout',
             'as'  => 'logout'
-
         ]);
 
         //Registration routes
@@ -42,14 +43,14 @@ use healthy\Models\Pais;
 
             'uses' => 'Auth\AuthController@postRegister',
             'as'  => 'registro'
-
         ]);
 
         //Alta de Clientes
         Route::get('alta-cliente',[
 
-            'uses' => 'ClientesController@create',
-            'as'   => 'alta-cliente'
+            'uses'       => 'ClientesController@create',
+            'middleware' => 'role:admin',
+            'as'         => 'alta-cliente'
         ]);
 
         Route::post('alta-cliente',[
@@ -62,7 +63,6 @@ use healthy\Models\Pais;
 
             'uses' =>'ClientesController@index',
             'as' => 'clientes-lists'
-
         ]);
 
 
@@ -72,13 +72,12 @@ use healthy\Models\Pais;
             //RETORNAR LA CONSULTA AL MÉTODO.
             $estados= Estado::where('Id_Paises_Pais',$pais_id)
                 ->select('Id_Estado as value','Nombre_Estado as text')
-                ->orderBy('Nombre_Estado','DESC')
+                ->orderBy('Nombre_Estado','ASC')
                 ->get()
                 ->toArray();
 
             array_unshift($estados,['value' =>'','text' => 'Seleccione']);
             return $estados;
-
         });
 
         Route::get('ciudades/{estado_id}',function($estado_id){
@@ -90,7 +89,6 @@ use healthy\Models\Pais;
 
            array_unshift($ciudades,['value' =>'','text' =>'Seleccione']);
             return $ciudades;
-
         });
 
 
@@ -99,6 +97,61 @@ use healthy\Models\Pais;
             'as' => 'consultacliente',
             'uses' => 'ClientesController@consultaname'
         ]);
+
+
+        Route::get('/crearole',function(){
+
+           $adminRole= Role::create([
+
+               'name' =>'Administrador',
+               'slug' =>'admin',
+               'description' =>'Acceso completo',
+           ]);
+        });
+
+        Route::get('/setrole',function(){
+
+
+            $user= User::find(5);
+
+            $user->attachRole(1);
+        });
+
+        Route::get('/createpermiso',function(){
+
+            $createClientPermission= Permission::create([
+
+                'name' => 'Create cliente',
+                'slug' => 'create.cliente',
+                'description' => 'Crear Afiliado',
+            ]);
+        });
+        
+        Route::get('/permisorole',function(){
+
+            $role= Role::find(1);
+            $role->attachPermission(2);
+        });
+
+
+        //ruta que devuelve un json con los usuarios de la base de datos
+        Route::get('buscacliente', function(){
+
+            if(Request::ajax()){
+
+                $buscar= Request::input('data');
+
+                //$users = DB::table('users')->get();
+
+                $clientes= Clientes::where('nombre_completo',"LIKE","%$buscar%")->get();
+
+                return Response::json(array(
+                    'clientes' => 	$clientes
+                ));
+            }
+        });
+        
+        
 
 
 

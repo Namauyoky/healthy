@@ -10,9 +10,11 @@ class Clientes extends Model
     protected $table='clientes';
     //Campos para asignación masiva, es decir que pueden ser enviados por medio del formulario
     protected $fillable=[
+        'Patrocinador',
         'Nip',
         'Nombre',
         'Apellidos',
+        'Fecha_Nacimiento',
         'Domicilio',
         'Colonia',
         'CodigoPostal',
@@ -20,12 +22,15 @@ class Clientes extends Model
         'Id_Estados_Estado',
         'Id_Paises_Pais',
         'Telefono',
-        'Correo_Electronico',
         'Tel_Celular',
-        'Fecha_Nacimiento',
+        'Correo_Electronico',
         'Identificacion',
-      
-
+        'Genero',
+        'EdoCivil',
+        'Ocupacion',
+        'RFC',
+        'Id_RedOrigen',
+        
     ];
     protected $primaryKey='Id_Afiliado';
     public $timestamps = false;

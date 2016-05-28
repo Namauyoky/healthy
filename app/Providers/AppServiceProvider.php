@@ -2,6 +2,7 @@
 
 namespace healthy\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+
+        Validator::resolver(function($translator, $data, $rules, $messages)
+        {
+            return new \healthy\Validator($translator, $data, $rules, $messages);
+        });
     }
 
     /**
