@@ -2,6 +2,7 @@
 
 namespace healthy\Http\Controllers;
 
+
 use Faker\Provider\DateTime;
 use healthy\Http\Requests\CreateClientRequest;
 use healthy\Models\Clientes;
@@ -12,10 +13,12 @@ use Illuminate\Auth\Guard;
 use healthy\Http\Requests;
 use healthy\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 use Carbon\Carbon;// Aquí indicamos que usaremos Carbon
-use Illuminate\Support\Facades\Session; 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ClientesController extends Controller
 {
@@ -27,14 +30,21 @@ class ClientesController extends Controller
     public function index()
     {
         //
+
+ 
+    }
+    
+    public function nuevos(){
+
         $date=Carbon::now();
         $dateformated= $date->toDateString();
 
-        $lastclients=Clientes::where('FechaAlta',"LIKE","%$dateformated%")
-                    ->orderBy('Id_Afiliado','DESC')
-                    ->get();
+        $lastclients=Clientes::with('patrocinador')
+            -> where('FechaAlta',"LIKE","%$dateformated%")
+            -> orderBy('Id_Afiliado','DESC')
+            ->get(array('Id_Afiliado','nombre_completo','Id_Cliente_Patrocinador'));
 
-        return view('clientes.lists',compact('lastclients'));
+        return view('clientes.listanuevos',compact('lastclients'));
     }
 
     /**
@@ -57,11 +67,8 @@ class ClientesController extends Controller
      */
     public function store(CreateClientRequest $request,Guard $auth)
     {
-        //
-
-
-
-//        //Opcion sin usar Request
+        
+//        //Opcion sin usar Requests para validar
 //        $this->validate($request,[
 //
 //            'name'              =>'required|max:40|string',
@@ -75,9 +82,6 @@ class ClientesController extends Controller
 //
 //
 //        ]);
-
-
-
 
         \DB::beginTransaction();
 
@@ -112,67 +116,64 @@ class ClientesController extends Controller
             $cliente->NoSeguro= $request->rfc;
             $cliente->RFC= $request->rfc;
             $cliente->Id_Cliente_Patrocinador_ant= $request->patrocinador;
-            //$fechactual= new DateTime('now');
             $cliente->FechaAlta=$dateformated;
             $cliente->Fecha_ultcompra=$dateformated;
             $cliente->Puntos=0;
             $cliente->Estado_Cliente=2;
             $cliente->Tipo_ImpuestoRetener=$request->impuestos;
             $cliente->Id_Usuarios_UsuarioAlta=$auth->id();
-            $cliente->Id_RedOrigen='MX';
+            $cliente->Id_RedOrigen=$request->red;
             $cliente->Tipo_Cliente=1;
             $cliente->save();
 
-
-            //$hijo=$idcreado->Id_Afiliado;
-
-            //$hijo=$cliente->Id_Afiliado=16;
-            
-            
+            //Dar Alta de Cuenta de Banco tomando la relación
             CountBank::create(array(
                
                 'Id_Afiliado' => $cliente->Id_Afiliado,
                 'banco'       => $request->banco,
                 'cuenta'      => $request->cuenta,
                 'tipopago'    => $request->tipopago
-
             ));
-
+            
+            //Ejecuta el Procedimiento Almacenado para crear Red Multinivel del nuevo afiliado.
             \DB::select('CALL Multinivel(?,?)',array($padre,$cliente->Id_Afiliado));
-            \DB::commit();
 
-//            Session::flash('flash_message','Cliente Creado Correctamente');
-            //otra opcion
-        /*    session()->flash('flash_message','Cliente Creado Correctamente');
-            session()->flash('flash_message_important',true);*/
-
-            /*Para esta opcion se tiene que agregar el paquete laracasts/flash en composer
-            /*Recibe como parámetros flash.message y flash.level(éste para saber el nivel de importancia)
-            /*En clase FlashNotifier
-            */
-
+            //Mensaje Success de Alta Correcta.
             //si no queremos usar laracasts/flash, descomentar /comentar
-            //flash('Cliente Creado Correctamente')->important();
-            flash()->success('Cliente Creado Correctamente');
+            flash('Cliente Creado Correctamente')->important();
+            //flash()->success('Cliente Creado Correctamente')->important();
 
-            //Flash Modal
-//            flash()->overlay('Cliente Creado Correctamente','Proceso Correcto');
+            //$this->pdfClientRegister($cliente);
+            
+//            $this->send(
+//                $request->mail,
+//                $request->nombre. ' ' .$request->apellidos,
+//                $cliente->Id_Afiliado,
+//                $cliente->Nip
+//            );
 
+            //Envío de Correo de Confirmación a Cliente.
+            \Mail::send('emails.registrocliente',$cliente->toArray(),function($message)use($cliente){
+
+                //remitente
+                $message->from('registro@healthypeopleco.com','Registro');
+                //asunto
+                $message->subject('Bienvenido');
+                //receptor
+                $message->to($cliente->Correo_Electronico, $cliente->nombre_completo);
+                
+            });
+            
+            //Si no hubo error alguno , en los procesos anteriores , hacemos commit para ejecutar todos los procesos
+            \DB::commit();
+            
+            
             return redirect()->route('clientes-lists');
-
-            //Algo más resumido
-//            return redirect()->route('clientes-lists')->with([
-//
-//                'flash_message' => 'Cliente Creado Correctamente',
-//                'flash_message_important' => true
-//            ]);
-
         }
             // Ha ocurrido un error, devolvemos la BD a su estado previo y hacemos lo que queramos con esa excepción
         catch (\Exception $e)
         {
             \DB::rollback();
-            // no se... Informemos con un echo por ejemplo
 
             //return 'Error de Datos'.'ERROR (' . $e->getCode() . '): ' . $e->getMessage();
 
@@ -180,70 +181,6 @@ class ClientesController extends Controller
                 ->withErrors($e->getMessage())
                 ->withInput(\Input::all());
         }
-
-        // Hacemos los cambios permanentes ya que no han habido errores
-
-
-
-
-
-        
-
-
-
-
-        //Opcion sin simplificación
-//        $rules= array(
-//
-//            'name'              =>'required|max:40|string',
-//            'apellidos'         =>'required|max:50|string',
-//            'nip'               =>'required|alpha_num',
-//            'nacimiento'        =>'required|date',
-//            'identificacion'    =>'required|max:255|alpha_num',
-//            'pais_id'           =>'required',
-//            'estado_id'         =>'required',
-//            'ciudad_id'         =>'required',
-//
-//
-//        );
-//
-//        $this->validate($request,$rules);
-        //-------------------------------------
-        //Sin usar el método validate
-        /*
-         *$data = Request::all();
-         * $rules= array();
-         * $v= Validator::make($data,$rules);
-         * if($v->fails()){
-         * return redirect()->back()
-         * ->withErrors($v->errors())
-         * ->withInput(Request::except('password'))
-         * $user = User::create($data);
-         * return redirect()->route('users.index');
-         *}
-         */
-
- /*       $nota= new Note();
-        $nota->note= $request->get('campo de formulario');
-        $nota->save();*/
-
-
-
-
-        // dd($request->all());
-
-//        $request=Request::all();
-//
-//        return $request;
-        //return "Entró";
-
-
-        // return Request::only
-        //$data= request()->all();
-
-        //Clientes::create($data);
-
-        //return redirect::to('notes');
     }
 
     /**
@@ -272,12 +209,8 @@ class ClientesController extends Controller
             $users= User::name($request->get('patrocinador'));
 
             return Response::json(array(
-
                 'users' => $users
-
             ));
-
-
         }
     }
     
@@ -326,4 +259,30 @@ class ClientesController extends Controller
     {
         //
     }
+
+    //enviar correo de registro
+    public function send($email,$nombre,$afiliado,$nip){
+        $datos= array(
+
+            'mail'    => $email,
+            'nombre'  => $nombre,
+            'cliente' => $afiliado,
+            'nip'     => $nip
+        );
+
+
+        \Mail::send('emails.registrocliente',$datos,function($message)use($email,$nombre){
+
+            //remitente
+            $message->from('registro@healthypeopleco.com','Registro');
+            //asunto
+            $message->subject('Bienvenido');
+            //receptor
+            $message->to($email,$nombre);
+        });
+
+        return redirect()->route('clientes-lists');
+    }
+
+    
 }

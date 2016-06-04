@@ -4,5 +4,6 @@
         <th>Nombre</th>
         <th>Patrocinador</th>
         <th>Nip</th>
+        <th>&nbsp;</th>
     </tr>
 </thead>

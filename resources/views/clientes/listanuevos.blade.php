@@ -29,22 +29,20 @@
         {{--</div><!-- /.error-content -->--}}
     {{--</div><!-- /.error-page -->--}}
 
+    <div class="container">
+        <div class="col-md-7 col-md-offset-3">
+            <div class="panel panel-success">
+                <div class="panel-heading">Últimos Clientes Registrados</div>
 
-    <div class="col-md-7 col-md-offset-3">
-    <div class="panel panel-success">
-        <div class="panel-heading">Últimos Clientes Registrados</div>
+                <table class="table table-hover table-striped">
 
-
-
-    <table class="table table-hover table-striped">
-
-        @include('partials.head-clients')
-        <tbody>
-        @include('partials.list-clients')
-        </tbody>
-
-    </table>
-    </div>
+                    @include('partials.head-clients')
+                    <tbody>
+                    @include('partials.list-clients')
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 @endsection

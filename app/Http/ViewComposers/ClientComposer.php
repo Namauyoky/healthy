@@ -31,10 +31,10 @@ class ClientComposer
 
         $redorigen=DB::table('redorigen')
             ->select('Id_redorigen','descripcion')
-            ->lists('Id_redorigen','descripcion');
+            ->lists('descripcion','Id_redorigen');
 
 
-        $view ->with(array('impuestosretener' => $impuestosretener,'red' => $redorigen ));
+        $view ->with(array('impuestosretener' => $impuestosretener,'redorigen' => $redorigen ));
 
         //Enviar varias variables a las vistas
 //        $view->with(array('varible1' => $varible1, 'varible2' => $variable2));

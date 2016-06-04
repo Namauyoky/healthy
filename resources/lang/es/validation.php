@@ -40,7 +40,7 @@ return array(
 	"digits"         => "El campo :attribute debe ser de :digits números.",
 	"digits_between" => "El campo :attribute debe tener entre :min y :max números.",
 	"email"          => "El formato del :attribute es inválido.",
-	"exists"         => "El campo :attribute seleccionado es inválido.",
+	"exists"         => "El campo :attribute seleccionado no existe.",
         "filled"         => 'El campo :attribute es requerido.',	
 	"image"          => "El campo :attribute debe ser una imagen.",
 	"in"             => "El campo :attribute seleccionado es inválido.",

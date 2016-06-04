@@ -144,6 +144,8 @@ return [
         Styde\Html\HtmlServiceProvider::class,
         Bican\Roles\RolesServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -211,6 +213,9 @@ return [
         'Field'     => Styde\Html\Facades\Field::class,
         'Menu'      => Styde\Html\Facades\Menu::class,
         'Flash'     => Laracasts\Flash\Flash::class,
+        'PDF'       => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'Image'     => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
 
     ],
 

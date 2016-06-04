@@ -45,25 +45,56 @@ use Bican\Roles\Models\Role;
             'as'  => 'registro'
         ]);
 
-        //Alta de Clientes
+        //Rutas para Procesos de Clientes
+
+        //Alta de Clientes(Formulario)
         Route::get('alta-cliente',[
 
             'uses'       => 'ClientesController@create',
             'middleware' => 'role:admin',
             'as'         => 'alta-cliente'
         ]);
-
+        //Alta de Clientes(Store)
         Route::post('alta-cliente',[
 
          'uses' => 'ClientesController@store',
          'as'   => 'alta-cliente'
         ]);
-
+        //Muestra Lista de Ultimos Registrados
         Route::get('cliente-list',[
 
-            'uses' =>'ClientesController@index',
+            'uses' =>'ClientesController@nuevos',
             'as' => 'clientes-lists'
         ]);
+        //Para Buscar Cliente(Para Patrocinador o Ventas)
+        Route::get('consultacliente',[
+
+            'as' => 'consultacliente',
+            'uses' => 'ClientesController@consultaname'
+        ]);
+        //ruta que devuelve un json con los usuarios de la base de datos
+        Route::get('buscacliente', function(){
+
+            if(Request::ajax()){
+
+                $buscar= Request::input('data');
+
+                //$users = DB::table('users')->get();
+
+                $clientes= Clientes::where('nombre_completo',"LIKE","%$buscar%")->get();
+
+                return Response::json(array(
+                    'clientes' => 	$clientes
+                ));
+            }
+        });
+
+
+//        Route::get('pdf-cliente',[
+//
+//            'uses' => 'ClientesController@index',
+//            'as'   => 'pdf-cliente'
+//        ]);
 
 
         //Para Select de Región...
@@ -92,13 +123,14 @@ use Bican\Roles\Models\Role;
         });
 
 
-        Route::get('consultacliente',[
-           
-            'as' => 'consultacliente',
-            'uses' => 'ClientesController@consultaname'
-        ]);
 
 
+        Route::get('clienteregistro/{id}','PdfController@altacliente');
+        
+
+
+
+        
         Route::get('/crearole',function(){
 
            $adminRole= Role::create([
@@ -134,22 +166,6 @@ use Bican\Roles\Models\Role;
         });
 
 
-        //ruta que devuelve un json con los usuarios de la base de datos
-        Route::get('buscacliente', function(){
-
-            if(Request::ajax()){
-
-                $buscar= Request::input('data');
-
-                //$users = DB::table('users')->get();
-
-                $clientes= Clientes::where('nombre_completo',"LIKE","%$buscar%")->get();
-
-                return Response::json(array(
-                    'clientes' => 	$clientes
-                ));
-            }
-        });
         
         
 

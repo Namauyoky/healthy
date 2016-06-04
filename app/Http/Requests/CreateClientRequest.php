@@ -38,7 +38,7 @@ class CreateClientRequest extends Request
             'ocupacion'         =>'in:Comerciante,Distribuidor,Empleado,Hogar,Estudiante,Profesionista,Otro',
             'domicilio'         =>'required|max:150|string',
             'colonia'           =>'required|max:50|string',
-            'codigop'           =>'required|max:6|digits:6',
+            'codigop'           =>'required|max:6|digits_between:3,6',
             'telefono'          =>'required|max:30|alpha_num',
             'celular'           =>'max:30|alpha_num',
             'mail'              =>'required|email',

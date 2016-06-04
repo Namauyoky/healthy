@@ -28,7 +28,7 @@
                     <label for="redorigen" class="col-sm-2 control-label">Red Origen</label>
                     <div class="form-group">
                         <div class="col-sm-2">
-                            {!! Form::select('red',$red,null,['class' =>'form-control']) !!}
+                            {!! Form::select('red',$redorigen,null,['class' =>'form-control']) !!}
                         </div>
 
                         <div class="form-group">
@@ -50,7 +50,6 @@
                                 <tr>
                                     <th class="id"></th>
                                     <th class="nombre"></th>
-
                                 </tr>
                                 </tbody>
                             </table>
@@ -96,8 +95,6 @@
                         <input type="text" class="form-control" name="rfc" value="{{ old('rfc') }}"></div>
                 </div>
                 <hr>
-
-
                 <div class="form-group">
                     <label for="genero" class="col-sm-2 control-label">Género</label>
                     <div class="col-sm-2">
@@ -128,7 +125,6 @@
                         </div>
                 </div>
                 <hr>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Domicilio</label>
                     <div class="col-sm-3">
@@ -142,7 +138,6 @@
                     </div>
                 </div>
                 <hr>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Teléfono</label>
                     <div class="col-sm-2">
@@ -156,7 +151,6 @@
                     </div>
                 </div>
                 <hr>
-
                 <div class="form-group">
                     <label for="identificacion" class="col-sm-2 control-label">Banco</label>
                     <div class="col-sm-3">
@@ -165,7 +159,6 @@
                     <div class="col-sm-3">
                         <input type="text" class="form-control" placeholder="No. de Cuenta" name="cuenta" value="{{ old('cuenta') }}"></div>
                 </div>
-
                 <div class="form-group">
                     <label for="tipopago" class="col-sm-2 control-label">Tipo Pago</label>
                     <div class="col-sm-3">
@@ -180,7 +173,6 @@
                        ],null,['class' => 'form-control']) !!}
 
                     </div>
-
                     <label for="idimpuesto" class="col-sm-1 control-label">Retención</label>
                     <div class="form-group">
                         <div class="col-sm-3">
@@ -191,11 +183,10 @@
                 <hr>
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <button type="submit" class="btn btn-info pull-right">Register</button>
+                        <button type="submit" class="btn btn-info pull-right">Registrar</button>
                     </div><!-- /.col -->
                 </div>
             </div>
-
             {{--</form>--}}
             {!! Form::close() !!}
 
@@ -204,8 +195,6 @@
 
     </div>
 @endsection
-
-
 {{--@include('partials.jqueryscript')--}}
 @section('scripts')
 @include('scripts jquery.altaclientes')

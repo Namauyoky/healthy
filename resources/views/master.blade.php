@@ -15,8 +15,8 @@
         @include('partials.contentheader')
 
         {{--Si no queremos usar el packete laracasts/flash, descomentamos éste --}}
-        {{--@include('partials.flash')--}}
-                @include('flash::message')
+        @include('partials.flash')
+                {{-- @include('flash::message') --}}
 
         <!-- Main content -->
         <section class="content">
@@ -36,7 +36,7 @@
 <script>
     //Para que se muestre Alert Modal
 //    $('#flash-overlay-modal').modal();
-    $('div.alert').not('.alert-important').delay(2000).slideUp(300);
+    $('div.alert').not('.alert-important').delay(10000).slideUp(300);
 </script>
 @include('partials.scripts')
 </body>

@@ -13,4 +13,6 @@ class Ciudad extends Model
 
 
     public $timestamps = false;
+
+    
 }

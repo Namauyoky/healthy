@@ -22,7 +22,8 @@ class Validator extends LaravelValidator
 
         $cliente=DB::table('clientes')
             ->where('Id_Afiliado',$value)
-            ->where('Tipo_Cliente','>',2)
+            ->where('Tipo_Cliente','>',1)
+            ->where('Tipo_Cliente','<',4)
             ->where('Estado_Cliente','=',1)
             ->get();
 

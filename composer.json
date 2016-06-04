@@ -10,7 +10,13 @@
         "acacha/admin-lte-template-laravel": "1.*",
         "bican/roles": "2.1.*",
         "styde/html": "~1.0",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "barryvdh/laravel-snappy": "0.2.x",
+        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
+        "guzzlehttp/guzzle": "~5.3|~6.0",
+        "barryvdh/laravel-debugbar":"^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
