@@ -64,10 +64,10 @@
 
                         <ul class="treeview-menu">
                             <li><a href="{{ route('alta-cliente') }}"><i class="fa fa-long-arrow-right"></i>Nuevo</a></li>
-                            <li><a href="#"><i class="fa fa-long-arrow-right"></i>Consulta</a></li>
-                            <li><a href="#"><i class="fa fa-long-arrow-right"></i>Modificar</a></li>
-                            <li><a href="#"><i class="fa fa-long-arrow-right"></i>Movimientos</a></li>
-                            <li><a href="#"><i class="fa fa-long-arrow-right"></i>CRM</a></li>
+                            <li><a href="{{ route('clientes') }}"><i class="fa fa-long-arrow-right"></i>Consulta</a></li>
+                            {{--<li><a href="#"><i class="fa fa-long-arrow-right"></i>Modificar</a></li>--}}
+                            {{--<li><a href="#"><i class="fa fa-long-arrow-right"></i>Movimientos</a></li>--}}
+                            {{--<li><a href="#"><i class="fa fa-long-arrow-right"></i>CRM</a></li>--}}
                         </ul>
                     </li>
                     <li><a href=""><i class="fa fa-circle-o"></i>Productos<i class="fa fa-angle-left pull-right"></i></a>

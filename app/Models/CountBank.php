@@ -21,7 +21,6 @@ class CountBank extends Model
 
 
     public function cliente(){
-
         //aquí especificamos que una cuenta, pertenece a un cliente.
         return $this->belongsTo('healthy\Models\Clientes','Id_Afiliado');
 

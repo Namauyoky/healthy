@@ -23,10 +23,9 @@ class ComposerServiceProvider extends ServiceProvider
 //            'App\Http\ViewComposers\ClientComposer' => ['ruta1','ruta2'],
 
             //Asignamos que composer corresponde o se va a cargar en cada ruta...
-            'healthy\Http\ViewComposers\ClientComposer' => 'clientes/create'
+            'healthy\Http\ViewComposers\ClientComposer' => ['clientes/create','clientes/edit','clientes/redmultinivel'],
             
             
-        
         ]);
     }
 

@@ -12,9 +12,11 @@
         <td>{{ $client->Fecha_ultcompra }}</td>
         <td>{{ $client->status->descripcion }}</td>
         <td>
-            <a href="{{ url('clienteregistro/'.$client->Id_Afiliado) }}">
-                <i class="glyphicon glyphicon-print"></i>
-            </a>
+            {{--<a data-toggle="tooltip" title="Detalle" href="{{ url('clienteregistro/'.$client->Id_Afiliado) }}">--}}
+                {{--<i class="glyphicon glyphicon-list-alt"></i>--}}
+            {{--</a>--}}
+            @include('partials.menu-list-clientes')
+
         </td>
 
     </tr>

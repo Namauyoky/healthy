@@ -16,6 +16,20 @@ class PdfController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    /**
+     * @var ClientRepository
+     */
+    private $clientRepository;
+
+    public function __construct(ClientRepository $clientRepository)
+    {
+        $this->clientRepository = $clientRepository;
+    }
+
+
+
     public function index()
     {
         //
@@ -92,10 +106,18 @@ class PdfController extends Controller
         $cliente= Clientes::find($id);
         $date=Carbon::now();
         $date->toDateTimeString();
-
-
-
+        
+        
         return \PDF::loadView('pdf.clienteregistro',array('datoscliente' => $cliente, 'date' => $date ))->stream('cliente.pdf');
+    }
+
+
+    public function redmultinivel($id){
+
+
+        return \PDF::loadView('clientes.redmultinivel',array('datoscliente' => $cliente, 'date' => $date ))->stream('cliente.pdf');
+
+
     }
 
 }

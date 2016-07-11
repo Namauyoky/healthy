@@ -16,7 +16,9 @@
         "barryvdh/laravel-snappy": "0.2.x",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "barryvdh/laravel-debugbar":"^2.2"
+        "barryvdh/laravel-debugbar":"^2.2",
+        "wenzhixin/bootstrap-table":"1.10.1",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

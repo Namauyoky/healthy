@@ -146,6 +146,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -216,6 +217,7 @@ return [
         'PDF'       => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'Image'     => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Datatables'=> Yajra\Datatables\Facades\Datatables::class,
 
     ],
 

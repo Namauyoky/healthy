@@ -34,7 +34,12 @@ class ClientComposer
             ->lists('descripcion','Id_redorigen');
 
 
-        $view ->with(array('impuestosretener' => $impuestosretener,'redorigen' => $redorigen ));
+        $periodos= DB::table('periodos')
+            ->select('Id',DB::raw('CONCAT(periodo,"|",fecha_inicio," a ",fecha_cierre) AS periodo'))
+            ->lists('periodo','Id');
+
+
+        $view ->with(array('impuestosretener' => $impuestosretener,'redorigen' => $redorigen,'periodos' => $periodos));
 
         //Enviar varias variables a las vistas
 //        $view->with(array('varible1' => $varible1, 'varible2' => $variable2));

@@ -20,7 +20,7 @@
             <div class="panel-heading">Datos Generales del Afiliado</div>
             <div class="panel-body">
 
-                {!! Form::model($makeForm,['route' => 'alta-cliente','method' =>'POST','class' => 'form-horizontal','role' => 'form', 'id' => 'search']) !!}
+                {!! Form::model($ubicationForm,['route' => 'alta-cliente','method' =>'POST','class' => 'form-horizontal','role' => 'form', 'id' => 'search']) !!}
 
                 @include('partials/errors')
 
@@ -83,6 +83,12 @@
                     <label for="ciudad_id" class="col-sm-1 control-label">Ciudad</label>
                     <div class="col-sm-2">
                         {!! Field::select('ciudad_id',$ciudades,['class' => 'form-control','id' => 'ciudad_id']) !!}</div>
+
+                    <div class="col-sm-2">
+                        {!! Field::select('prueba_id',null,['class' => 'form-control','id' => 'prueba_id']) !!}</div>
+
+
+
                 </div>
                 <hr>
 

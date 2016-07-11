@@ -20,7 +20,6 @@
 
         <!-- Main content -->
         <section class="content">
-
             @yield('main-content')
 
         </section><!-- /.content -->
@@ -40,5 +39,4 @@
 </script>
 @include('partials.scripts')
 </body>
-
 </html>

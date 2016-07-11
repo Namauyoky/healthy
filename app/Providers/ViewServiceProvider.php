@@ -17,7 +17,7 @@ class ViewServiceProvider extends ServiceProvider
         //
         //
         $this->app->make('view')->composer(
-            ['clientes/create'],
+            ['clientes/create','clientes/edit'],
             MakeModelForm::class
 
         );

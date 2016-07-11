@@ -30,6 +30,7 @@ class Clientes extends Model
         'Ocupacion',
         'RFC',
         'Id_RedOrigen',
+        'Estado_Cliente',
         
     ];
     protected $primaryKey='Id_Afiliado';
@@ -38,8 +39,11 @@ class Clientes extends Model
     
     public function scopeName($query,$nombre){
 
-        //dd($nombre);
-        $query-> where('nombre_completo',"LIKE","%$nombre%");
+        //dd('scope'. $nombre);
+        if(trim($nombre) != ""){
+
+            $query-> where('nombre_completo',"LIKE","%$nombre%");
+        }
 
     }
 
@@ -80,5 +84,18 @@ class Clientes extends Model
     public function user(){
 
         return $this->belongsTo('healthy\User','Id_Usuarios_UsuarioAlta');
+    }
+
+    public function status(){
+        return $this->belongsTo('healthy\Models\Estatus','Estado_Cliente');
+    }
+
+    public function cuentabanco(){
+        return $this->hasOne('healthy\Models\CountBank','Id_Afiliado');
+    }
+
+    public function clienteimpuesto(){
+        return $this->belongsTo('healthy\Models\ImpuestoRetener','Tipo_ImpuestoRetener');
+
     }
 }

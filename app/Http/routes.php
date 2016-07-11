@@ -18,9 +18,13 @@ use healthy\Models\Estado;
 use healthy\Models\Pais;
 use healthy\User;
 use Bican\Roles\Models\Role;
+use Illuminate\Support\Facades\App;
+use Yajra\Datatables\Datatables;
 
 
-    Route::group(['middleware' =>'auth'],function(){
+//Rutas sólo usuarios logueados...
+
+Route::group(['middleware' =>'auth'],function(){
 
 
         Route::get('/', function () {
@@ -45,49 +49,96 @@ use Bican\Roles\Models\Role;
             'as'  => 'registro'
         ]);
 
-        //Rutas para Procesos de Clientes
 
-        //Alta de Clientes(Formulario)
-        Route::get('alta-cliente',[
+            //Consulta General Clientes
+            Route::get('clientes',[
 
-            'uses'       => 'ClientesController@create',
-            'middleware' => 'role:admin',
-            'as'         => 'alta-cliente'
+                'uses'   => 'ClientesController@index',
+                'as'     => 'clientes'
+            ]);
+
+            Route::get('detalle-cliente/{id}',[
+
+                'uses'  => 'ClientesController@show',
+                'as'    => 'detalle-cliente'
+
+            ]);
+
+            Route::get('edit-cliente/{id}',[
+                'uses'   => 'ClientesController@edit',
+                'as'    => 'edit-cliente'
+
+            ]);
+
+            Route::put('update-cliente/{id}',[
+
+                'uses'  => 'ClientesController@update',
+                'as'    => 'update-cliente'
+            ]);
+
+            //Alta de Clientes(Formulario)
+            Route::get('alta-cliente',[
+
+                'uses'       => 'ClientesController@create',
+                'middleware' => 'role:admin',
+                'as'         => 'alta-cliente'
+            ]);
+            //Alta de Clientes(Store)
+            Route::post('alta-cliente',[
+
+                'uses' => 'ClientesController@store',
+                'as'   => 'alta-cliente'
+            ]);
+            //Muestra Lista de Ultimos Registrados
+            Route::get('cliente-list',[
+
+                'uses' =>'ClientesController@nuevos',
+                'as' => 'clientes-lists'
+            ]);
+            //Para Buscar Cliente(Para Patrocinador o Ventas)
+            Route::get('consultacliente',[
+
+                'as' => 'consultacliente',
+                'uses' => 'ClientesController@consultaname'
+            ]);
+            //ruta que devuelve un json con los usuarios de la base de datos
+            Route::get('buscacliente', function(){
+
+                if(Request::ajax())
+                {
+                    $buscar= Request::input('data');
+                    //$users = DB::table('users')->get();
+                    $clientes= Clientes::where('nombre_completo',"LIKE","%$buscar%")->get();
+
+                    return Response::json(array(
+                        'clientes' => 	$clientes
+                    ));
+                }
+            });
+
+
+        Route::get('redmultinivel/{id}',[
+            
+            'as'    => 'redcliente',
+            'uses'  => 'ClientesController@redmultinivel'
+            
         ]);
-        //Alta de Clientes(Store)
-        Route::post('alta-cliente',[
 
-         'uses' => 'ClientesController@store',
-         'as'   => 'alta-cliente'
+        Route::get('detallemultinivel/{id}',[
+        
+            'as'    => 'detallemultinivel',
+            'uses'  => 'ClientesController@datosclientemultinivel'
+            
         ]);
-        //Muestra Lista de Ultimos Registrados
-        Route::get('cliente-list',[
+    
+//        Route::get('redmultinivelpdf/{id}/{periodo}','ClientesController@redMultinivelPdf');
 
-            'uses' =>'ClientesController@nuevos',
-            'as' => 'clientes-lists'
+        Route::get('redmultinivelpdf/{id}',[
+
+            'as'   => 'redmultinivelpdf',
+           'uses'  => 'ClientesController@redMultinivelPdf'
+
         ]);
-        //Para Buscar Cliente(Para Patrocinador o Ventas)
-        Route::get('consultacliente',[
-
-            'as' => 'consultacliente',
-            'uses' => 'ClientesController@consultaname'
-        ]);
-        //ruta que devuelve un json con los usuarios de la base de datos
-        Route::get('buscacliente', function(){
-
-            if(Request::ajax()){
-
-                $buscar= Request::input('data');
-
-                //$users = DB::table('users')->get();
-
-                $clientes= Clientes::where('nombre_completo',"LIKE","%$buscar%")->get();
-
-                return Response::json(array(
-                    'clientes' => 	$clientes
-                ));
-            }
-        });
 
 
 //        Route::get('pdf-cliente',[
@@ -114,22 +165,25 @@ use Bican\Roles\Models\Role;
         Route::get('ciudades/{estado_id}',function($estado_id){
             $ciudades=Ciudad::where('Id_Estados_Estado',$estado_id)
                 ->select('Id_Ciudad as value','Nombre_Ciudad as text')
-                ->orderBy('Nombre_Ciudad','ASC')
+                ->orderBy('Nombre_Ciudad','DESC')
                 ->get()
                ->toArray();
 
            array_unshift($ciudades,['value' =>'','text' =>'Seleccione']);
             return $ciudades;
         });
-
-
-
-
-        Route::get('clienteregistro/{id}','PdfController@altacliente');
+    
+    
         
 
 
+        Route::get('estados/{id}','ClientesController@getEstados');
+    
 
+
+    Route::get('ciudades/{id}','ClientesController@getCiudades');
+
+        Route::get('clienteregistro/{id}','PdfController@altacliente');
         
         Route::get('/crearole',function(){
 
@@ -266,28 +320,7 @@ Route::get('productos/delete',function()
 });
 
 
-//Middleware para accesar a diferentes rutas, sólo si el usuario está registrado en el sistema, hizo login
 
-
-
-
-//
-//    Route::group(['middleware' => 'verified'],function(){
-//
-//
-//        Route::get('publish',function(){
-//
-//            return view('publish');
-//        });
-//
-//        Route::post('publish',function(){
-//
-//            return Request::all();
-//
-//        });
-//
-//
-//    });
 
 
 

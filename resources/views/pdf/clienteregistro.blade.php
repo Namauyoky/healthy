@@ -1,29 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-{{--<head>--}}
-    {{--<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>--}}
-    {{--<title>Registro de Distribuidores</title>--}}
-
-    {{--<!-- Bootstrap 3.3.5 -->--}}
-    {{--<link rel="stylesheet" href="{{ asset('/bootstrap/css/bootstrap.min.css')}}">--}}
-
-    {{--<!-- jQuery 2.1.4 -->--}}
-    {{--<script src="{{ asset('plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>--}}
-
-    {{--<!-- Font Awesome -->--}}
-    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">--}}
-    {{--<!-- Ionicons -->--}}
-    {{--<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">--}}
-    {{--<!-- jvectormap -->--}}
-    {{--<link rel="stylesheet" href="{{asset('/plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}">--}}
-    {{--<!-- Theme style -->--}}
-    {{--<link rel="stylesheet" href="{{asset('/dist/css/AdminLTE.min.css')}}">--}}
-    {{--<!-- AdminLTE Skins. Choose a skin from the css/skins--}}
-         {{--folder instead of downloading all of them to reduce the load. -->--}}
-    {{--<link rel="stylesheet" href="{{asset('/dist/css/skins/skin-red-light')}}.css">--}}
-
-{{--</head>--}}
-
 
 @include('partials.htmlheader')
 
@@ -43,7 +19,6 @@
     </section>
     <!-- Main content -->
     <section class="invoice">
-
         <!-- title row -->
         <div class="row">
             <div class="col-xs-12">
@@ -170,7 +145,6 @@
                             </div>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
-
                             <h5 class="box-title">{{ $datoscliente->nombre_completo }}
                             {{--<a  data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>--}}
                             <span class="pull-right">
@@ -181,11 +155,8 @@
                         </div><!-- /.box-footer -->
                     </div><!-- /.box -->
                 </div><!-- /.col -->
-
             </div><!-- /.row -->
-
         <!-- this row will not appear when printing -->
-
     </section><!-- /.content -->
     <div class="clearfix"></div>
 {{--</div><!-- /.content-wrapper -->--}}

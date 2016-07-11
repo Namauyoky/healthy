@@ -1,7 +1,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> Healthy People - @yield('htmlheader_title', 'Your title here') </title>
+    <title> Healthy People - @yield('htmlheader_title', '') </title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -24,6 +24,10 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('/dist/css/skins/skin-red-light')}}.css">
     {{--<link rel="stylesheet" href="{{asset('/dist/css/skins/_all-skins')}}.min.css">--}}
+    <link rel="stylesheet" href=" {{ asset('/bootstrap-table.css') }}">
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+
 
 
     {{--<!-- Bootstrap 3.3.5 -->--}}

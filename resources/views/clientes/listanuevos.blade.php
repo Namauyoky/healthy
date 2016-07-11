@@ -38,7 +38,7 @@
 
                     @include('partials.head-clients')
                     <tbody>
-                    @include('partials.list-clients')
+                    @include('partials.list-clientes-nuevos')
                     </tbody>
                 </table>
             </div>

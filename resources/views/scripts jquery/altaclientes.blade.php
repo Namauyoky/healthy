@@ -4,7 +4,7 @@
 
         //alert("listo");
 
-        /*      $('select').select2({
+    /*        $('select').select2({
 
          allowClear: true,
          placeholder:{
@@ -27,6 +27,7 @@
             //this representa el objeto select
             $(this).html(options);
         }
+
 
         $('#pais_id').change(function () {
             $('#ciudad_id').empty().change();

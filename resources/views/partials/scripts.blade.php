@@ -5,6 +5,7 @@
 <script src="{{ asset('plugins/fastclick/fastclick.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/app.min.js') }}"></script>
+<script src="{{ asset('bootstrap-table.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{ asset('plugins/sparkline/jquery.sparkline.min.js') }}"></script>
 <!-- jvectormap -->
@@ -16,8 +17,13 @@
 <script src="{{ asset('plugins/chartjs/Chart.min.js') }}"></script>
 {{--<!-- AdminLTE dashboard demo (This is only for demo purposes) -->--}}
 <script src="{{ asset('dist/js/pages/dashboard2.js') }}"></script>
+
+
+
 {{--<!-- AdminLTE for demo purposes -->--}}
 {{--<script src="{{ asset('dist/js/demo.js') }}"></script>--}}
+
+
 
 
 

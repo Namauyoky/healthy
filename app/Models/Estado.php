@@ -13,4 +13,13 @@ class Estado extends Model
 
 
     public $timestamps = false;
+
+
+
+    public static function states($id){
+        
+        return Estado::where('Id_Paises_Pais','=',$id)
+            ->get();
+    }
+
 }

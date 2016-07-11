@@ -14,5 +14,13 @@ class Ciudad extends Model
 
     public $timestamps = false;
 
-    
+
+
+    public static function allciudades($id){
+        
+        return Ciudad::where('Id_Estados_Estado','=',$id)
+            ->get();
+    }
+
+
 }

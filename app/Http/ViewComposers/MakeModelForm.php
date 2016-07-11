@@ -21,36 +21,31 @@ class MakeModelForm
 
     public function compose(View $view){
 
-    $makeForm= Request::only('pais_id','estado_id','ciudad_id');
+    $ubicationForm= Request::only('pais_id','estado_id','ciudad_id');
 
         $paises= Pais::orderBy('Nombre_Pais','ASC')
         ->lists('Nombre_Pais','Id_Pais')
             ->toArray();
 
-
         $paisEstados=$ciudades= array();
 
+        if($ubicationForm['pais_id'] !=null){
 
-        if($makeForm['pais_id'] !=null){
-
-            $paisEstados= Estado::where('Id_Paises_Pais',$makeForm['pais_id'])
+            $paisEstados= Estado::where('Id_Paises_Pais',$ubicationForm['pais_id'])
                 ->orderBy('Nombre_Estado','ASC')
                 ->lists('Nombre_Estado','Id_Estado')
                 ->toArray();
 
+            if($ubicationForm['estado_id']!=null){
 
-            if($makeForm['estado_id']!=null){
-
-                $ciudades = Ciudad::where('Id_Estados_Estado',$makeForm['estado_id'])
+                $ciudades = Ciudad::where('Id_Estados_Estado',$ubicationForm['estado_id'])
                     ->orderBy('Nombre_Ciudad','ASC')
                     ->lists('Nombre_Ciudad','Id_Ciudad')
                     ->toArray();
             }
         }
 
-        $view ->with(compact('makeForm','paises','paisEstados','ciudades'));
-
-       
+        $view ->with(compact('ubicationForm','paises','paisEstados','ciudades'));
 
     }
 

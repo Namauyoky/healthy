@@ -4,18 +4,12 @@ namespace healthy\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pais extends Model
+class Periodo extends Model
 {
     //
-    protected $table='paises';
-    protected $primaryKey='Id_Pais';
+    protected $table='periodos';
+    protected $primaryKey='Id';
 
     public $timestamps = false;
-
-
-
-
-
+    
 }
-
-
