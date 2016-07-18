@@ -82,7 +82,6 @@ class Clientes extends Model
     }
 
     public function user(){
-
         return $this->belongsTo('healthy\User','Id_Usuarios_UsuarioAlta');
     }
 
@@ -96,6 +95,10 @@ class Clientes extends Model
 
     public function clienteimpuesto(){
         return $this->belongsTo('healthy\Models\ImpuestoRetener','Tipo_ImpuestoRetener');
-
     }
+    
+    public function pedidos(){
+        return $this->hasMany('healthy\Models\PedidosClientes','Id_Clientes_Afiliado','Id_Afiliado');
+    }
+    
 }

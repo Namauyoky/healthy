@@ -24,5 +24,5 @@
         <td>{{ $red['Puntoscalificacion'] }}</td>
         <td>{{ $red['Puntosnegocio'] }}</td>
         <td>{{ $red['Puntoslealtad'] }}</td>
-        </tr>
+    </tr>
 @endforeach

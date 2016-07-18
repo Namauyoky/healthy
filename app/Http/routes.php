@@ -61,13 +61,11 @@ Route::group(['middleware' =>'auth'],function(){
 
                 'uses'  => 'ClientesController@show',
                 'as'    => 'detalle-cliente'
-
             ]);
 
             Route::get('edit-cliente/{id}',[
                 'uses'   => 'ClientesController@edit',
                 'as'    => 'edit-cliente'
-
             ]);
 
             Route::put('update-cliente/{id}',[
@@ -117,28 +115,38 @@ Route::group(['middleware' =>'auth'],function(){
             });
 
 
-        Route::get('redmultinivel/{id}',[
-            
-            'as'    => 'redcliente',
-            'uses'  => 'ClientesController@redmultinivel'
-            
-        ]);
+            Route::get('redmultinivel/{id}',[
 
-        Route::get('detallemultinivel/{id}',[
-        
-            'as'    => 'detallemultinivel',
-            'uses'  => 'ClientesController@datosclientemultinivel'
-            
-        ]);
+                'as'    => 'redcliente',
+                'uses'  => 'ClientesController@redmultinivel'
+            ]);
+
+            Route::get('detallemultinivel/{id}',[
+
+                'as'    => 'detallemultinivel',
+                'uses'  => 'ClientesController@datosclientemultinivel'
+            ]);
+
+            Route::get('redmultinivelpdf/{id}',[
+
+                'as'   => 'redmultinivelpdf',
+               'uses'  => 'ClientesController@redMultinivelPdf'
+            ]);
     
-//        Route::get('redmultinivelpdf/{id}/{periodo}','ClientesController@redMultinivelPdf');
+            Route::get('crm/{id}',[
 
-        Route::get('redmultinivelpdf/{id}',[
+                'as'    =>'crmclient',
+                'uses'  =>'ClientesController@crmclient'
+            ]);
 
-            'as'   => 'redmultinivelpdf',
-           'uses'  => 'ClientesController@redMultinivelPdf'
 
-        ]);
+            //Routes para Pedidos
+
+            Route::get('detallepedido/{id}',[
+
+                'as'    =>'detallepedido',
+                'uses'  =>'PedidosController@detalle'
+            ]);
 
 
 //        Route::get('pdf-cliente',[

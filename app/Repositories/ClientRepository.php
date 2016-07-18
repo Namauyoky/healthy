@@ -2,6 +2,7 @@
 
 namespace healthy\Repositories;
 use healthy\Models\Clientes;
+use healthy\Models\PedidosClientes;
 
 
 /**
@@ -25,15 +26,20 @@ class ClientRepository
             ->first();
     }
     
-    
+    public function comissionsclient($commissiontable,$id){
+        
+        return  $commission = \DB::table($commissiontable)
+            ->where('Id_Afiliado',$id)
+            ->first();
+    }
+
     public function findClient($id){
         
         return $cliente= Clientes::find($id);
     }
 
     public function redMultinivel($edocuenta,$id){
-
-
+        
         //Se Obtiene la red desordenada del Afiliado= $id
 
         $clientesred= \DB::table('clientes')
@@ -53,27 +59,14 @@ class ClientRepository
             ->orderBy($edocuenta.'.'.'Id_Niveles_TipoNivel', 'ASC')
             ->get();
 
-        
-        //dd($clientesred);
-
         //El array se convierte en una colección para poder hacer los filtros de nivel.
         $clientesred= collect($clientesred);
         $arraynivelesred= array();
-
-
-//        $puntosgrupales= $clientesred->sum('Puntoscalificacion');
-
-
-        //dd($puntosgrupales);
-
-
-        // dd($clientesred);
-
+        
         //Hacemos la consulta de los Afiliados por niveles y los almacenamos en  objetos de esas consultas
 
         $clientesuno = $clientesred->filter(function($category) {
             return $category->Id_Niveles_TipoNivel == 1 ? true : false;
-
         });
 
         array_push($arraynivelesred,$clientesuno);
@@ -122,10 +115,8 @@ class ClientRepository
 
         $arrayred= array();
         
-        
         foreach ($clientesuno as $niveluno)
         {
-
             //Obtenemos el Primer Afiliado en Nivel 1 y agregamos sus datos al array
             $tmpNivel01=$niveluno->Id_Clientes_Afiliado;
             array_push($arrayred, array(
@@ -255,6 +246,42 @@ class ClientRepository
 
         
         return [$arrayred,$arraynivelesred];
+    }
+
+    public function pedidosClient($id){
+
+        $pedidos= PedidosClientes::select(
+            'pedidosclientes.*',
+            'almacenes.Descripcion AS Almacen',
+            'tiposalida.Descripcion AS TipoPedido',
+            'listaprecios.descripcion AS ListaPrecios',
+            'periodos.periodo'
+        )
+            ->join('almacenes','pedidosclientes.Id_Almacenes_Almacen','=','almacenes.Id_Almacen')
+            ->join('tiposalida','pedidosclientes.Id_SalidasAlmacen_Salida','=','tiposalida.Id_TipoSalida')
+            ->join('listaprecios','pedidosclientes.Id_ListaPrecios','=','listaprecios.id_listaprecios')
+            ->join('periodos','pedidosclientes.Id_Periodo','=','periodos.Id')
+            ->where('Id_Clientes_Afiliado',$id)
+            ->get();
+        
+       return $pedidos;
+    }
+
+    public function rangoClient($id,$idperiodo){
+
+      $rango = \DB::table('historicorangos')
+            ->select('Id_Rango','rangoshealthy.descripcion_rangohealthy AS nombrerango')
+            ->join('rangoshealthy','historicorangos.Id_Rango','=','rangoshealthy.id_rangohealthy')
+            ->where('Id_Afiliado',$id)
+            ->where('periodo',$idperiodo)
+            ->first();
+
+      if(count($rango)>0){
+          $rangocliente= $rango->nombrerango;
+      }else{
+          $rangocliente="Sin Rango";
+      }
+        return $rangocliente;
     }
 
 }

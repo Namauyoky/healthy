@@ -10,7 +10,7 @@
         <li><a data-toggle="tooltip" title="Modificar Información del Cliente" href="{{ route('edit-cliente',$client->Id_Afiliado) }}">
                 <i class="glyphicon glyphicon-edit"></i>Editar
             </a></li>
-        <li><a data-toggle="tooltip" title="Estretegia de Negocio" href="{{ url('clienteregistro/'.$client->Id_Afiliado) }}">
+        <li><a data-toggle="tooltip" title="Estretegia de Negocio" href="{{ url('crm/'.$client->Id_Afiliado) }}">
                 <i class="glyphicon glyphicon-certificate"></i>CRM
             </a></li>
         <li><a data-toggle="tooltip" title="Descendencia Multinivel" href="{{ url('redmultinivel/'.$client->Id_Afiliado) }}">

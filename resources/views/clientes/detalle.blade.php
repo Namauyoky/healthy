@@ -98,7 +98,7 @@
                                     <div class="box-body">
                                         <table class="table table-user-information">
                                             <tbody>
-
+                                            <tr>
                                             <td>Ciudad:</td>
                                             <td>{{ $cliente->ciudad->Nombre_Ciudad }}</td>
                                             </tr>
